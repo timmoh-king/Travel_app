@@ -14,7 +14,7 @@ class PackingList(Base):
 
     @property
     def formatted_date(self):
-        return datetime.strptime(str(self.date), "%d/%m/%Y").strftime("%d/%m/%y")
+        return datetime.strptime(str(self.date), "%Y-%m-%d").strftime("%Y-%m-%d")
 
     @property
     def formatted_time(self):

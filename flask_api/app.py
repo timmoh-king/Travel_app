@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-from flask_cors import (CORS, cross_origin)
 from flask_cors import CORS
 from packing_list import PackingList
 from list_items import ListItem
@@ -7,9 +6,16 @@ from db import Session, engine
 from sqlalchemy.exc import SQLAlchemyError
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+CORS(app)
 
 PackingList.metadata.create_all(bind=engine)
+
+session = Session()
+session.query(PackingList).delete()
+session.query(ListItem).delete()
+
+session.commit()
+session.close()
 
 @app.route("/", methods=['GET'], strict_slashes=False)
 def index():
